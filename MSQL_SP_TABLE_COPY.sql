@@ -14,7 +14,7 @@ GO
 -- Commands parameter added
 -- -BULK command uses trancation and avoids transaction container
 -- =============================================
-ALTER PROCEDURE [dbo].[MSQL_SP_TABLE_COPY] 
+CREATE OR ALTER PROCEDURE [dbo].[MSQL_SP_TABLE_COPY] 
 
 (
 @SCHEMA_FROM varchar(50)='[dbo]',
@@ -34,7 +34,7 @@ BEGIN
 DECLARE @SQL nvarchar(max)=''
 DECLARE @columns varchar(max)=''
 DECLARE @output nvarchar(max)=''
-DECLARE @ErrorMessage nvarchar(max)
+DECLARE @ErrorMessage nvarchar(max)='No errors'
 
 IF @TABLE_TO ='' AND @SCHEMA_FROM <> @SCHEMA_TO
 BEGIN  
@@ -45,21 +45,17 @@ ELSE PRINT 'Target table TABLE_TO parameter must be filled in.'
 SET @columns='['+(select STRING_AGG(name,'],[')+']' from syscolumns 
 where id=object_id(@SCHEMA_FROM + '.'+@TABLE_FROM) and name<>'timestamp')
 
-
-
 SET @SQL = '
 IF OBJECTPROPERTY(OBJECT_ID('''+ @SCHEMA_TO + '.'+@TABLE_TO + '''), ''TableHasIdentity'') = 1 SET IDENTITY_INSERT '+ @SCHEMA_TO + '.'+@TABLE_TO + ' ON '
 
-IF @COMMANDS like '%-BULK%' SET @SQL=@SQL + ';TRUNCATE TABLE '+ @SCHEMA_TO + '.'+@TABLE_TO    
+IF @COMMANDS not like '%-TRUNSACTION%' SET @SQL=@SQL + ';TRUNCATE TABLE '+ @SCHEMA_TO + '.'+@TABLE_TO    
 ELSE SET @SQL=@SQL + ';DELETE FROM '+ @SCHEMA_TO + '.'+@TABLE_TO 
  
 SET @SQL=@SQL + ';INSERT INTO '+ @SCHEMA_TO + '.'+@TABLE_TO + '(' + @columns + ') 
 SELECT '+ @columns + ' FROM ' + @SCHEMA_FROM + '.'+@TABLE_FROM   
 
-print @SQL
 
-
-IF @COMMANDS like '%-BULK%'  EXEC dbo.sp_executesql @SQL
+IF @COMMANDS not like '%-TRUNSACTION%'  EXEC dbo.sp_executesql @SQL
 , @Params=N'@output varchar(max) OUTPUT'
 , @output=@output OUTPUT
 
@@ -77,7 +73,7 @@ ELSE  -- transaction mode execution
         IF @@TRANCOUNT > 0
             ROLLBACK TRAN
             SET @output=ERROR_MESSAGE()
-            SET @ErrorMessage = ERROR_MESSAGE()
+            SET @ErrorMessage= ERROR_MESSAGE()
             DECLARE @ErrorSeverity INT = ERROR_SEVERITY()
             DECLARE @ErrorState INT = ERROR_STATE()
 
@@ -88,7 +84,11 @@ ELSE  -- transaction mode execution
     END CATCH
 END -- end transaction mode execution
 --print @output
-select @SQL 
+select @ErrorMessage 
 
 END -- end SP
 GO
+
+-- LOG 
+-- switched to default truncate mode
+-- for transactions please use commands=-TRANSACTION
