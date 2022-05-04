@@ -21,7 +21,8 @@ CREATE OR ALTER PROCEDURE [dbo].[MSQL_SP_TABLE_COPY]
 @SCHEMA_TO varchar(50)='[dbo]',
 @TABLE_FROM varchar(50)='',
 @TABLE_TO varchar(50)='',
-@COMMANDS varchar(1000)=''
+@COMMANDS varchar(1000)='',
+@COLUMNS_SKIP varchar(1000)='timestamp'
 )
 WITH EXECUTE AS OWNER
 AS
@@ -43,7 +44,7 @@ END
 ELSE PRINT 'Target table TABLE_TO parameter must be filled in.'
 
 SET @columns='['+(select STRING_AGG(name,'],[')+']' from syscolumns 
-where id=object_id(@SCHEMA_FROM + '.'+@TABLE_FROM) and name<>'timestamp')
+where id=object_id(@SCHEMA_FROM + '.'+@TABLE_FROM) and name not in (select value from STRING_SPLIT (@COLUMNS_SKIP,',')))
 
 SET @SQL = '
 IF OBJECTPROPERTY(OBJECT_ID('''+ @SCHEMA_TO + '.'+@TABLE_TO + '''), ''TableHasIdentity'') = 1 SET IDENTITY_INSERT '+ @SCHEMA_TO + '.'+@TABLE_TO + ' ON '
