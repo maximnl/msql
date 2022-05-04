@@ -96,3 +96,4 @@ GO
 
 -- In the example , columns id and timestamp will be ignored and not inserted in the target table
 --EXEC MSQL_SP_TABLE_COPY  @COLUMNS_SKIP='id,timestamp', @SCHEMA_FROM='W', @SCHEMA_TO='A',@TABLE_FROM='A_SOURCE_FILE'
+-- the used function STRING_SPLIT implies that you are on SQL Server 2016 or UP. 
