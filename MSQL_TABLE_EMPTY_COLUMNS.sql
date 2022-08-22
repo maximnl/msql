@@ -24,7 +24,7 @@ DECLARE
 ,@DataType nvarchar(128)
 ,@cmd nvarchar(max)
 ,@TableSchema nvarchar(128) = 'dbo'
-,@TableName sysname = 'PLANSIS_SOURCE_NPS_COBU';
+,@TableName sysname = 'YOUR_TABLE_NAME';
 
 DECLARE getinfo CURSOR FOR
 SELECT
