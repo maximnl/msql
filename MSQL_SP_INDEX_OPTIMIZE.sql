@@ -1,5 +1,5 @@
 
-/****** Object:  StoredProcedure [dbo].[A_SP_SYS_INDEX_OPTÌMIZE]    Script Date: 27-10-2021 13:06:22 ******/
+/****** Object:  StoredProcedure [dbo].[MSQL_SP_INDEX_OPTIMIZE]    Script Date: 27-10-2021 13:06:22 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -9,7 +9,7 @@ GO
 -- Create date: 2020-01-01
 -- Description:	Optimise indexes fragmenation
 -- =============================================
-CREATE OR ALTER PROCEDURE [dbo].[A_SP_SYS_INDEX_OPTÌMIZE]  AS
+CREATE OR ALTER PROCEDURE [dbo].[MSQL_SP_INDEX_OPTIMIZE]  AS
 BEGIN
 -- USE master
 EXECUTE master.dbo.IndexOptimize
