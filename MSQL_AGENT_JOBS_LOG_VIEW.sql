@@ -30,7 +30,7 @@ SELECT
 FROM [msdb].dbo.sysjobs sj
   INNER JOIN [msdb].dbo.sysjobhistory sjh ON sj.job_id = sjh.job_id
   LEFT OUTER JOIN [msdb].dbo.sysjobsteps sjs ON sjh.job_id = sjs.job_id AND sjh.step_id = sjs.step_id  
-WHERE sj.name = 'ANWB RHL DATAVERLADING' 
+WHERE sj.name = 'YOUR JOB NAME' 
 -- and sjh.step_name in ( 'A STEP NAME1','A STEP NAME1')
  
 GO
