@@ -20,4 +20,13 @@ A stored procedure to output tables statistics per database schema such as used 
 View slow queries stats
 <img width="1482" alt="image" src="https://github.com/maximnl/msql/assets/33482502/9474e723-5141-498e-b268-08ac546c2b29">
 
+# MSQL_FILES_DELETE
+PS1 script for deleteing all files with no data extension and older than 2 days
+
+# MSQL_FILES_LOG
+PS1 script for logging files' names from a (FTP) folder into a sql table. 
+Fully_Qualified_FileName, File_name, attributes, CreationTime, LastAccessTime, LastWriteTime, Length    
+<img width="643" alt="image" src="https://github.com/maximnl/msql/assets/33482502/172586fb-a53f-4bc5-a9a4-14cb19491259">
+
+
 
