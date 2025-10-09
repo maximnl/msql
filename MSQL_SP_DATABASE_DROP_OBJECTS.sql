@@ -8,8 +8,9 @@ Parameters:
     @Mode         - Execution mode (default: 'TEST')
                     'TEST' = Preview SQL without executing
                     'RUN'  = Execute DROP statements
-Author: Auto-generated
+Author: PLANSIS
 Date: 2025-10-09
+GitHub: https://github.com/maximnl/msql
 ====================================================================
 */
 
